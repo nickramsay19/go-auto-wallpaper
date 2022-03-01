@@ -15,7 +15,7 @@ func main() {
 	var fileNameSpecified bool = len(args) > 0 // check if enough args are specified for a filename
 
 	// read the local "config.json" file to retrieve the API key
-	configBody, err := ioutil.ReadFile("./secret.json")
+	configBody, err := ioutil.ReadFile("/Users/nickramsay/Documents/Projects/go-auto-wallpaper/secret.json")
     if err != nil {
         log.Fatalf("unable to read file: %v", err)
     }
