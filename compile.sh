@@ -1,0 +1,1 @@
+go build -o bin/getwp main.go request.go download.go

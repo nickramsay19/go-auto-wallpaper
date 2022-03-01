@@ -3,37 +3,16 @@ package main
 import (
 	"fmt" // for debug printing
 	"encoding/json" // for reading "config.json"
-	"io"
 	"io/ioutil"
-	"os"
 	"log"
-	"net/http"
+	"os" // for command line args
 )
 
-// DownloadFile will download a url to a local file. It's efficient because it will
-// write as it downloads and not load the whole file into memory.
-func DownloadFile(url string, filepath string) error {
-
-	// Get the data
-	resp, err := http.Get(url)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-
-	// Create the file
-	out, err := os.Create(filepath)
-	if err != nil {
-		return err
-	}
-	defer out.Close()
-
-	// Write the body to file
-	_, err = io.Copy(out, resp.Body)
-	return err
-}
-
 func main() {
+
+	// get the command line arguments
+	args := os.Args[1:] // scrap the program name
+	var fileNameSpecified bool = len(args) > 0 // check if enough args are specified for a filename
 
 	// read the local "config.json" file to retrieve the API key
 	configBody, err := ioutil.ReadFile("./config.json")
@@ -50,8 +29,8 @@ func main() {
 
 	// create our request from the apiKey
 	req := NewRequest("https://api.unsplash.com/photos/random")
-	//req.SetParameter("collections", "1")
-	req.SetParameter("orientations", "landscape")
+	req.SetParameter("topics", "bo8jQKTaE0Y")
+	req.SetParameter("orientation", "landscape")
 	req.SetParameter("client_id", apiKey)
 
 	resBytes, err := req.GetResponse()
@@ -69,7 +48,14 @@ func main() {
 	urlsJson := resJson["urls"].(map[string]interface{}) // access the json object "urls" which contains the url strings
 	imageUrlRaw := urlsJson["raw"].(string) // access the "raw" key in the "urls" object
 
+	// create the filename of the file to be downloaded
+	var imageFilename string
+	if fileNameSpecified {
+		imageFilename = fmt.Sprintf("./%s", args[0]) // use the name passed from cl arguments
+	} else {
+		imageFilename = fmt.Sprintf("./%s.png", imageId) // use the id retreived from the api
+	}
+	
 	// download the file
-	imageFilename := fmt.Sprintf("./%s.png", imageId)
 	DownloadFile(imageUrlRaw, imageFilename)
 }

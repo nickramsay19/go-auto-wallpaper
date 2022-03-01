@@ -1,22 +1,24 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 )
 
+// a simple keyvalue struct for storing each request parameter
 type RequestParameter struct {
 	key string
 	value string
 }
 
+// store the request as a struct holding its url and params separately
 type Request struct {
 	url string
 	params []RequestParameter
 }
 
+// request constructor/initialiser
 func NewRequest(url string) (req Request) {
 
 	// initialse a params slice
@@ -28,6 +30,7 @@ func NewRequest(url string) (req Request) {
 	return req
 }
 
+// add or set a request paramter
 func (req *Request) SetParameter(key string, value string) {
 
 	// first check if the parameter already exists
@@ -48,11 +51,11 @@ func (req *Request) SetParameter(key string, value string) {
 	return
 }
 
+// fetch the api response from this request
 func (req Request) GetResponse() (resBody []byte, err error) {
 	
 	// construct the request url from url and params
 	url := req.url
-	fmt.Println(len(req.params))
 	for i, p := range req.params {
 
 		// parameters are separated by "&" or "?" on the first param
