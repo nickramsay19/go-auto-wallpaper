@@ -15,7 +15,7 @@ func main() {
 	var fileNameSpecified bool = len(args) > 0 // check if enough args are specified for a filename
 
 	// read the local "config.json" file to retrieve the API key
-	configBody, err := ioutil.ReadFile("./config.json")
+	configBody, err := ioutil.ReadFile("./secret.json")
     if err != nil {
         log.Fatalf("unable to read file: %v", err)
     }
