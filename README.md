@@ -12,6 +12,7 @@ A very simple program that retreives a nature image of the correct orientation f
     }
     ```
 3. Simply run `go build -o bin/getwp src/main.go src/request.go src/download.go`
+4. If you are on MacOS Mavericks or later you can use the nextwp-darwin.sh to automatically execute `bin/getwp` and set your desktop image to the image produced.
 
 
 ## Project Reflection
