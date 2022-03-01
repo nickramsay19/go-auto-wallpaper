@@ -4,12 +4,12 @@
 A very simple program that retreives a nature image of the correct orientation for my desktop wallpaper.
 
 ## Compilation
-1. You are required to get an API key from [api.unsplash.com](http://api.unsplash.com). Once done, place it in a file "secret.json" in the format:
-```json
-{
-     "api_key": "YOUR_ACCESS_KEY_HERE"
-}
-```
+1. You are required to get an API key from [api.unsplash.com](http://api.unsplash.com). Once done, place it in a file "secret.json" in the format: 
+    ```json
+    {
+        "api_key": "YOUR_ACCESS_KEY_HERE"
+    }
+    ```
 2. Simply run `sh compile.sh` (assuming you have Go version 1.17 or later installed).
 
 
