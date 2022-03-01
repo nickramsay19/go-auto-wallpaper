@@ -1,0 +1,1 @@
+go build -o bin/getwp src/main.go src/request.go src/download.go

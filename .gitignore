@@ -1,1 +1,4 @@
-config.json
+./secret.json
+*.png
+bin/getwp
+bin/next.png
