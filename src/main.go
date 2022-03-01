@@ -1,15 +1,16 @@
 package main
 
 import (
-	"fmt" // for debug printing
+	"fmt" // for string formatting
 	"encoding/json" // for reading "config.json"
 	"io/ioutil"
 	"log"
 	"os" // for command line args
+	//"schollz/progressbar" // for progress bar - removed
 )
 
 func main() {
-
+	
 	// get the command line arguments
 	args := os.Args[1:] // scrap the program name
 	var fileNameSpecified bool = len(args) > 0 // check if enough args are specified for a filename
@@ -27,16 +28,21 @@ func main() {
 	}
 	apiKey := json_object["api_key"].(string)
 
-	// create our request from the apiKey
+	// create our request with relevant params
 	req := NewRequest("https://api.unsplash.com/photos/random")
 	req.SetParameter("topics", "bo8jQKTaE0Y")
 	req.SetParameter("orientation", "landscape")
 	req.SetParameter("client_id", apiKey)
 
+	log.Println("Sending API request to https://api.unsplash.com/photos/random")
+
+	// send the api request
 	resBytes, err := req.GetResponse()
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	log.Println("Response body recieved successfully.")
 
 	// convert the resBody to json
 	var resJson map[string]interface{} // generic object to hold json values
@@ -51,11 +57,15 @@ func main() {
 	// create the filename of the file to be downloaded
 	var imageFilename string
 	if fileNameSpecified {
-		imageFilename = fmt.Sprintf("./%s", args[0]) // use the name passed from cl arguments
+		imageFilename = fmt.Sprintf("%s", args[0]) // use the name passed from cl arguments
 	} else {
 		imageFilename = fmt.Sprintf("./%s.png", imageId) // use the id retreived from the api
 	}
+
+	log.Println("Response parsed successfully.")
+	log.Println("Downloading image.")
 	
 	// download the file
 	DownloadFile(imageUrlRaw, imageFilename)
+	log.Println("Download Complete.")
 }
